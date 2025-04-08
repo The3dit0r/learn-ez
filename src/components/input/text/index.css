@@ -1,0 +1,25 @@
+.dft-input-frame {
+  border: 3px solid var(--color-prim);
+  border-radius: 8px;
+
+  > input {
+    width: calc(100% - 32px);
+    height: calc(100% - 32px);
+
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 600;
+
+    color: inherit;
+
+    padding: 16px;
+
+    background: none;
+    outline: none;
+    border: none;
+  }
+}
+
+.dft-input-frame:has(input:focus) {
+  border-color: var(--color);
+}

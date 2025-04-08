@@ -1,0 +1,16 @@
+.app-wrapper {
+  > .content-wrapper {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    max-width: 1000px;
+
+    margin: auto;
+  }
+
+  > .content-wrapper.scrollable {
+    overflow-y: auto;
+    background-color: #fff;
+  }
+}

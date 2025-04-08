@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+
+:root {
+  /** Color palette + background */
+  --color-prim: #fcf1d9;
+  --color-sec: #2d473e;
+
+  --color-err: #a01000;
+  --color-ok: #1eda79;
+
+  --color-tert-1: #eeab40;
+  --color-tert-2: #497dff;
+
+  --color: #fff;
+
+  --bg-main: linear-gradient(0 deg, #030303, #030303 60%, #0a100e 100%);
+
+  /** Font family  */
+  --f-family: "Lexend", "Helvetica", sans-serif;
+
+  --fsize-h1: 2.99em;
+  --fsize-h2: 2.49em;
+  --fsize-h3: 1.9em;
+
+  --fsize-body: 1em;
+  --fsize-sub: 0.7em;
+  --fsize-cap: 0.83em;
+
+  /** Border radius */
+  --bdrd-s: 8px;
+  --bdrd-m: 16px;
+  --bdrd-l: 24px;
+  --bdrd-p: 9e5px;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+body {
+  background-color: #030303;
+  background-image: url("../public/assets/background.png");
+  background-size: contain;
+
+  color: var(--color);
+
+  font-family: var(--f-family);
+  font-size: 15px;
+  font-weight: 400;
+
+  height: 100%;
+  width: 100%;
+
+  overflow: hidden;
+
+  padding: 0px;
+  margin: 0px;
+}
+
+.h1,
+h1 {
+  font-size: var(--fsize-h1);
+  color: var(--color-prim);
+}
+
+.h2,
+h2 {
+  font-size: var(--fsize-h2);
+}
+
+.h3,
+h3 {
+  font-size: var(--fsize-h3);
+}
+
+p {
+  line-height: 1.5em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}
+
+.app-wrapper,
+#root {
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1 200px;
+}
+
+.coll {
+  flex-direction: column;
+}
+
+.aictr {
+  align-items: center;
+}
+
+.aiart {
+  align-items: flex-start;
+}
+
+.aiend {
+  align-items: flex-end;
+}
+
+.jcctr {
+  justify-content: center;
+}
+
+.jcart {
+  justify-content: flex-start;
+}
+
+.jcend {
+  justify-content: flex-end;
+}
+
+.spard {
+  justify-content: space-around;
+}
+
+.spevl {
+  justify-content: space-evenly;
+}
+
+.spbtw {
+  justify-content: space-between;
+}
+
+.tactr {
+  text-align: center;
+}
+
+.disclaimer {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+*:not(.selectable),
+.usn {
+  user-select: none;
+}

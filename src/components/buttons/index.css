@@ -1,0 +1,45 @@
+.dft-btt {
+  padding: 16px 28px;
+  font-size: 1em;
+  font-weight: 600;
+
+  --bg: var(--color-sec);
+  --c: #fff;
+
+  color: var(--c);
+  border: 2px solid var(--c);
+  border-radius: var(--bdrd-s);
+
+  transition: all 0.1s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dft-btt.filled {
+  background-color: var(--bg);
+  border: none;
+}
+
+.dft-btt:not(.inactive):not(.disabled):hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+  transition: all 50ms;
+}
+
+.dft-btt:not(.inactive):not(.disabled):active {
+  transform: translateY(0px);
+  filter: brightness(0.8);
+  transition: all 50ms;
+}
+
+.dft-btt.disabled {
+  filter: brightness(0.7);
+  cursor: not-allowed;
+}
+
+.dft-btt .dft-icon {
+  font-size: 1.5em;
+}
