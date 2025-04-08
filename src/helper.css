@@ -3,7 +3,7 @@
 :root {
   /** Color palette + background */
   --color-prim: #fcf1d9;
-  --color-sec: #2d473e;
+  --color-sec: #5b8e7d;
 
   --color-err: #a01000;
   --color-ok: #1eda79;
@@ -156,4 +156,9 @@ h5 {
 *:not(.selectable),
 .usn {
   user-select: none;
+}
+
+.label {
+  margin: 24px 0 16px 0;
+  font-weight: 500;
 }

@@ -1,0 +1,19 @@
+@keyframes key-fade-in {
+  0% {
+    opacity: var(--str);
+  }
+
+  100% {
+    opacity: var(--des);
+  }
+}
+
+.fade-in {
+  --dur: 0.2s;
+  --del: 0s;
+
+  --str: 0;
+  --des: 1;
+
+  animation: key-fade-in var(--dur) linear var(--del) 1 normal forwards;
+}

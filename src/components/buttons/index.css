@@ -7,8 +7,9 @@
   --c: #fff;
 
   color: var(--c);
-  border: 2px solid var(--c);
+  border: 2px solid;
   border-radius: var(--bdrd-s);
+  border-color: var(--c);
 
   transition: all 0.1s;
 
@@ -20,19 +21,19 @@
 
 .dft-btt.filled {
   background-color: var(--bg);
-  border: none;
+  border-color: #0000;
 }
 
 .dft-btt:not(.inactive):not(.disabled):hover {
   cursor: pointer;
   transform: translateY(-2px);
-  transition: all 50ms;
+  transition: transform 50ms, color 0.1s, background 0.1s;
 }
 
 .dft-btt:not(.inactive):not(.disabled):active {
   transform: translateY(0px);
   filter: brightness(0.8);
-  transition: all 50ms;
+  transition: transform 50ms, color 0.1s, background 0.1s;
 }
 
 .dft-btt.disabled {

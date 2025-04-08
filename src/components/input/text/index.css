@@ -1,7 +1,9 @@
 .dft-input-frame {
-  border: 3px solid var(--color-prim);
+  border: 2px solid var(--color);
   border-radius: 8px;
+  position: relative;
 
+  > textarea,
   > input {
     width: calc(100% - 32px);
     height: calc(100% - 32px);
@@ -17,9 +19,15 @@
     background: none;
     outline: none;
     border: none;
+
+    resize: none;
   }
 }
 
 .dft-input-frame:has(input:focus) {
-  border-color: var(--color);
+  border-color: var(--color-prim);
+}
+
+.dft-input-frame.textarea {
+  padding: 0 0 32px 0;
 }
