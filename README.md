@@ -5,7 +5,6 @@
 </p>
 
 <h1>Learn EZ</h1>
-A platform that generates interactive roadmaps and questions automatically from documents.
 
 <p align="justify">
 LearnEZ is an innovative educational platform that enables learners to effortlessly create interactive question formats (such as multiple-choice and essay questions) from any document. The platform customizes learning roadmaps, offers personalized study plans, and includes tools for tracking progress, empowering users to learn efficiently, proactively, and with focus.
