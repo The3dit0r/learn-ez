@@ -1,5 +1,5 @@
 import "./index.css";
 
-import { TabSelectorVertical } from "./_tabselector";
+import { TabSelector } from "./_tabselector";
 
-export { TabSelectorVertical };
+export { TabSelector };

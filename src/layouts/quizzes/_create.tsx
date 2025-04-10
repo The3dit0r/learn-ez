@@ -120,39 +120,7 @@ export default function QuizCreatePanel() {
 }
 
 function GeneralPanel() {
-  const { name, description, cover } = useQuizContext();
-
-  const allowedImage = ["image/jpeg", "image/png", "image/webp", "image/webm"];
-
-  function handleFileInput(event: any) {
-    const target = event.target as HTMLInputElement | null;
-    if (!target) return;
-
-    const file = target.files?.[0];
-    const maxSizeBytes = 5 * 1024 * 1024;
-
-    if (!file) {
-      alert("Error reading file! Please try again");
-      return;
-    }
-
-    if (file.size > maxSizeBytes) {
-      alert("File surpased maximum size");
-      return;
-    }
-
-    if (!allowedImage.includes(file.type)) {
-      alert("Supported image file format: .jpeg, .png, .webp, .webm");
-      return;
-    }
-
-    return file;
-  }
-
-  const imageURL = useMemo(
-    () => (cover[0] ? URL.createObjectURL(cover[0]) : ""),
-    [cover[0]]
-  );
+  const { name, description } = useQuizContext();
 
   return (
     <div className="flex-1 fade-in">
@@ -161,42 +129,6 @@ function GeneralPanel() {
         desc="General information of the quiz"
       />
       <div className="flex" style={{ gap: 32 }}>
-        {/* <div>
-          {cover[0] ? (
-            <div className="flex aictr coll" style={{ gap: 16, width: 250 }}>
-              <h4>Cover image</h4>
-              <div
-                style={{
-                  backgroundImage: `url('${imageURL}')`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-
-                  outline: "2px solid #fff3",
-
-                  width: 250,
-                  height: 200,
-                  borderRadius: 8,
-                }}
-              ></div>
-              <div className="line-ellips tactr">{cover[0].name}</div>
-              <div className="disclaimer">{formatFileSize(cover[0].size)}</div>
-              <WarnButton style={{ padding: 8 }} onClick={() => cover[1](null)}>
-                Remove
-              </WarnButton>
-            </div>
-          ) : (
-            <InputFileDnD
-              label="Cover image"
-              style={{ width: 200 }}
-              icon="add_photo_alternate"
-              accept={allowedImage.join(",")}
-              onChange={handleFileInput}
-              maxSizeMB={5}
-              state={cover}
-            />
-          )}
-        </div> */}
-
         <div className="flex-1">
           <TextInput
             placeholder="Ex: Statistical Intervals for a Single Sample"
