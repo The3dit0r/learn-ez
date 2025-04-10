@@ -1,14 +1,27 @@
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "../../components/icons";
 import { TextAreaInput, TextInput } from "../../components/input/text";
 import { Padder } from "../../components/others";
-import { SecButton, Button, WarnButton } from "../../components/buttons";
-import { TabSelectorVertical } from "../../components/navigate";
+import {
+  SecButton,
+  Button,
+  CauButton,
+  WarnButton,
+} from "../../components/buttons";
 import { InputFileDnD } from "../../components/input/files";
 import { formatFileSize } from "../../utilities/converter";
 import UnavailablePreviewPanel from "../others";
+import { TabSelector } from "../../components/navigate/_tabselector";
+import FileSelectModal from "../modals/_file_selector";
 
 const AvailableOptions = {
   general: { text: "General info", id: "general", icon: "info" },
@@ -79,7 +92,7 @@ export default function QuizCreatePanel() {
         <Padder height={32} />
 
         <div style={{ padding: "32px 0", gap: 32 }} className="flex flex-1">
-          <TabSelectorVertical
+          <TabSelector
             items={Object.values(AvailableOptions)}
             state={panelState}
           />
@@ -145,6 +158,11 @@ function GeneralPanel() {
     return file;
   }
 
+  const imageURL = useMemo(
+    () => (cover[0] ? URL.createObjectURL(cover[0]) : ""),
+    [cover[0]]
+  );
+
   return (
     <div className="flex-1 fade-in">
       <PanelHeader
@@ -152,15 +170,17 @@ function GeneralPanel() {
         desc="General information of the quiz"
       />
       <div className="flex" style={{ gap: 32 }}>
-        <div>
+        {/* <div>
           {cover[0] ? (
             <div className="flex aictr coll" style={{ gap: 16, width: 250 }}>
               <h4>Cover image</h4>
               <div
                 style={{
-                  backgroundImage: `url('${URL.createObjectURL(cover[0])}')`,
+                  backgroundImage: `url('${imageURL}')`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
+
+                  outline: "2px solid #fff3",
 
                   width: 250,
                   height: 200,
@@ -184,7 +204,7 @@ function GeneralPanel() {
               state={cover}
             />
           )}
-        </div>
+        </div> */}
 
         <div className="flex-1">
           <TextInput
@@ -208,33 +228,10 @@ function GeneralPanel() {
 }
 
 function GeneratePanel() {
+  const modalState = useState(false);
   const { prompt, source } = useQuizContext();
-  const allowedTypes = ["application/pdf"];
 
-  function handleFileInput(event: any) {
-    const target = event.target as HTMLInputElement | null;
-    if (!target) return;
-
-    const file = target.files?.[0];
-    const maxSizeBytes = 15 * 1024 * 1024;
-
-    if (!file) {
-      alert("Error reading file! Please try again");
-      return;
-    }
-
-    if (!allowedTypes.includes(file.type)) {
-      alert("Only .pdf documents are supported");
-      return;
-    }
-
-    if (file.size > maxSizeBytes) {
-      alert("File surpased maximum size");
-      return;
-    }
-
-    return file;
-  }
+  const openModal = () => modalState[1](true);
 
   return (
     <div className="flex-1 fade-in">
@@ -243,28 +240,40 @@ function GeneratePanel() {
         desc="Controls how the quiz's content is generated"
       />
 
-      <div className="flex-1 flex" style={{ gap: 30 }}>
-        <div>
-          <InputFileDnD
-            label="Upload file (PDF)"
-            style={{ width: 200, height: 150 }}
-            icon="description"
-            state={source}
-            onChange={handleFileInput}
-            maxSizeMB={15}
-            accept={allowedTypes.join(",")}
-          />
+      <div className="flex-1 flex coll">
+        <div className="label">Source material (PDF)</div>
+        <div className="flex" style={{ gap: 16 }}>
+          <div className="dft-input-frame flex aictr flex-1">
+            <span style={{ padding: "0 16px", fontWeight: 700 }}>
+              {source[0]?.name || "No file selected"}
+            </span>
+          </div>
+          {!source[0] ? (
+            <SecButton onClick={openModal}>Select a file</SecButton>
+          ) : (
+            <>
+              <WarnButton onClick={() => source[1](null)}>Remove</WarnButton>
+              <CauButton onClick={openModal}>Change</CauButton>
+            </>
+          )}
         </div>
-        <div className="flex-1">
+        <div>
           <TextAreaInput
-            placeholder="Ex: Make the questions about equations!"
-            label="Tell us more about what you want?"
-            maxLength={64}
-            height={182}
+            label="(Optional) Tell us more about what you want?"
+            placeholder="Ex: Make the roadmap focus more on roadmaps"
+            maxLength={256}
+            height={130}
             state={prompt}
           />
         </div>
       </div>
+
+      <FileSelectModal
+        state={modalState}
+        onFileConfirm={(file) => {
+          if (file) source[1](file);
+        }}
+      />
     </div>
   );
 }

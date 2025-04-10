@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Icon, MainLogo } from "./components/icons";
 
@@ -16,7 +16,9 @@ function App() {
 
 export function NavigationBar() {
   const nav = useNavigate();
-  const [runTrans, setRunTrans] = useState(0);
+  const { pathname } = useLocation();
+
+  const [runner, setRunner] = useState(0);
 
   const options = [
     { icon: <MainLogo width="2em" />, name: "Home", path: "/" },
@@ -30,8 +32,15 @@ export function NavigationBar() {
   ];
 
   function isActive(index: number) {
-    return runTrans === index;
+    return runner === index;
   }
+
+  useEffect(() => {
+    const [curPanel] = pathname.slice(1).split("/");
+
+    const newRun = options.map((m) => m.path.slice(1)).indexOf(curPanel);
+    setRunner(newRun);
+  }, [pathname]);
 
   return (
     <div className="navigation-bar" style={{ fontSize: 16 }}>
@@ -50,9 +59,9 @@ export function NavigationBar() {
           <div
             className={clssArr.join(" ")}
             onClick={() => {
-              setRunTrans(index);
               nav(item.path);
             }}
+            key={"item-" + index}
           >
             {item.icon}
           </div>
@@ -62,7 +71,7 @@ export function NavigationBar() {
       <div
         className="running-bar"
         style={{
-          transform: `translateY(calc(11px + ${72 * runTrans}px))`,
+          transform: `translateY(calc(11px + ${72 * runner}px))`,
           transition: "all 0.1s",
         }}
       ></div>

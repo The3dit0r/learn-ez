@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Button, PriButton, SecButton } from "../buttons";
+import { Button } from "../buttons";
 import { Icon } from "../icons";
+
+import "./index.css";
 
 type TabItems =
   | string
@@ -11,22 +13,26 @@ type TabItems =
     };
 
 type Props = {
-  items: TabItems[];
-  state: [string, React.Dispatch<React.SetStateAction<string>>];
+  items?: TabItems[];
+  state?: [string, React.Dispatch<React.SetStateAction<string>>];
+  direction?: "vertical" | "horizontal";
 } & React.JSX.IntrinsicElements["div"];
 
-export function TabSelectorVertical({
+export function TabSelector({
   state: xtState,
-  items,
+  items = [],
   className,
+  direction = "vertical",
   ...props
 }: Props) {
   const localState = useState("");
-  const clssArr = ["dft-tab-selector vertical"];
+  const clssArr = ["dft-tab-selector"];
 
   if (className) {
     clssArr.push(className);
   }
+
+  clssArr.push(direction);
 
   const [activeKey, setActiveKey] = xtState || localState;
 
@@ -62,7 +68,6 @@ export function TabSelectorVertical({
             onClick={getActiveDispatch(key)}
             style={{
               justifyContent: "flex-start",
-              padding: "16px 48px 16px 18px",
               gap: 16,
             }}
           >

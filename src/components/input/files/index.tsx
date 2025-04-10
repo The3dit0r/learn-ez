@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Icon } from "../../icons";
 import "./index.css";
-import { formatFileSize } from "../../../utilities/converter";
+import { ellipsisString, formatFileSize } from "../../../utilities/converter";
 import { WarnButton } from "../../buttons";
 
 type Intrinsic = React.JSX.IntrinsicElements;
@@ -63,17 +63,20 @@ export function InputFileDnD({
     switch (file) {
       case null: {
         return (
-          <div className="flex coll aictr tactr" style={{ gap: 8 }}>
+          <>
+            <Icon name={icon} size="4em" />
             <h4>Upload file here</h4>
             <div>(Maximum: {maxSizeMB} MB)</div>
-          </div>
+          </>
         );
       }
 
       default: {
         return (
-          <div className="flex coll aictr tactr" style={{ gap: 8 }}>
-            <h4>{file.name}</h4>
+          <>
+            <h4 style={{ wordBreak: "break-all" }}>
+              {ellipsisString(file.name, 68)}
+            </h4>
             <div>{formatFileSize(file.size)}</div>
             <WarnButton
               style={{ padding: 8 }}
@@ -84,7 +87,7 @@ export function InputFileDnD({
             >
               Remove
             </WarnButton>
-          </div>
+          </>
         );
       }
     }
@@ -94,8 +97,9 @@ export function InputFileDnD({
     <>
       {!label || <div className="label">{label}</div>}
       <div className={clssArr.join(" ")} {...rest} onClick={handleClick}>
-        <Icon name={icon} size="4em" />
-        <FileInputContent />
+        <div className="flex coll aictr tactr" style={{ gap: 8 }}>
+          <FileInputContent />
+        </div>
         <input
           type="file"
           ref={fileRef}

@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import "./helper.css";
 import "./keyframes.css";
+import "./!important.css";
 
 import App from "./App.tsx";
 

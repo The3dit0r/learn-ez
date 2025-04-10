@@ -1,5 +1,20 @@
 .dft-tab-selector {
   display: flex;
-  flex-direction: column;
   gap: 16px;
+}
+
+.dft-tab-selector.horizontal {
+  flex-direction: row;
+
+  .dft-btt {
+    padding: 12px 24px 12px 16px;
+  }
+}
+
+.dft-tab-selector.vertical {
+  flex-direction: column;
+
+  .dft-btt {
+    padding: 16px 48px 16px 18px;
+  }
 }

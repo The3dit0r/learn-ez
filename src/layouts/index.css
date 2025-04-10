@@ -5,6 +5,7 @@
 
     overflow: hidden;
     max-width: 1200px;
+    margin-right: 80px;
   }
 
   > .content-wrapper.scrollable {

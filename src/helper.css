@@ -4,6 +4,7 @@
   /** Color palette + background */
   --color-prim: #fcf1d9;
   --color-sec: #5b8e7d;
+  --color-sec-50: #3b5c51;
 
   --color-err: #a01000;
   --color-ok: #1eda79;
@@ -155,6 +156,14 @@ h5 {
   text-align: center;
 }
 
+.talft {
+  text-align: left;
+}
+
+.targt {
+  text-align: right;
+}
+
 .disclaimer {
   font-style: italic;
   opacity: 0.7;
@@ -173,76 +182,7 @@ h5 {
 .line-ellips {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
-}
-
-/* temporary stuff */
-
-.username-greet {
-  background: linear-gradient(90deg, #6cebc1 30%, #5b8e7d);
-  color: var(--color-sec);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.navigation-bar {
-  padding: 8px;
-  border-radius: 8px;
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 8px;
-
-  background-color: var(--color-sec);
-
-  .option {
-    width: 64px;
-    height: 64px;
-
-    background-color: #000a;
-    border-radius: 8px;
-
-    transition: all 0.2s;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .option.active {
-    background-color: var(--color-prim);
-    box-shadow: #0007 0px 2px 5px;
-
-    --color: var(--color-sec);
-  }
-
-  .option:not(.active):hover {
-    background-color: #0005;
-    cursor: pointer;
-
-    transition: all 0s;
-  }
-
-  span {
-    color: var(--color);
-  }
-
-  .running-bar {
-    position: absolute;
-    right: -3px;
-    width: 6px;
-    height: 42px;
-
-    background-color: var(--color-prim);
-    border-radius: 4px;
-  }
-
-  .sep {
-    margin: 2px 0;
-    width: 48px;
-    border: 1px solid #0006;
-  }
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
