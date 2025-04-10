@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "../../components/icons";
@@ -17,8 +10,6 @@ import {
   CauButton,
   WarnButton,
 } from "../../components/buttons";
-import { InputFileDnD } from "../../components/input/files";
-import { formatFileSize } from "../../utilities/converter";
 import UnavailablePreviewPanel from "../others";
 import { TabSelector } from "../../components/navigate/_tabselector";
 import FileSelectModal from "../modals/_file_selector";

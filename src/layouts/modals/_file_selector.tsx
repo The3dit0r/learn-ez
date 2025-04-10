@@ -1,16 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { TabSelector } from "../../components/navigate/_tabselector";
 import { ModalWrapper } from "../../components/modals";
-import { InputFileDnD } from "../../components/input/files";
 import { Button, PriButton } from "../../components/buttons";
 import { Icon } from "../../components/icons";
 import useLocalSavedFiles from "../../hooks/useLocalSavedFiles";
-import {
-  FileMetadata,
-  getFileHash,
-  loadFileFromLocalStorage,
-} from "../../utilities/storage";
+import { getFileHash, loadFileFromLocalStorage } from "../../utilities/storage";
 import { formatDate, formatFileSize } from "../../utilities/converter";
 import { UploadButton } from "../../components/others";
 
