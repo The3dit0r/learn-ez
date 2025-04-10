@@ -10,6 +10,7 @@ import {
 } from "../../components/buttons";
 import { TabSelector } from "../../components/navigate/_tabselector";
 import { useNavigate } from "react-router-dom";
+import FileSelectModal from "../modals/_file_selector";
 
 const AvailableOptions = {
   general: { text: "General info", id: "general", icon: "info" },
@@ -135,8 +136,15 @@ export default function RoadmapCreatePanel() {
 
       <div style={{ gap: 12 }} className="flex jcend">
         <Button onClick={() => nav(-1)}>Cancel</Button>
-        <SecButton>Generate quiz</SecButton>
+        <SecButton>Generate roadmap</SecButton>
       </div>
+
+      <FileSelectModal
+        state={modalState}
+        onFileConfirm={(file) => {
+          if (file) source[1](file);
+        }}
+      />
     </div>
   );
 }
