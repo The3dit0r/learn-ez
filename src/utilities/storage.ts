@@ -5,7 +5,7 @@ const $FID = "$FILE_"; // File identifier prefix
 
 const LOCAL_STORAGE = new IndexedDBKeyValue<string>("learnZ", "myStore");
 
-await LOCAL_STORAGE.init();
+LOCAL_STORAGE.init();
 
 type FileMetadata = {
   name: string;
