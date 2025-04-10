@@ -1,35 +1,34 @@
 import { useNavigate } from "react-router-dom";
-
-import { SecButton } from "../../components/buttons";
-import { Padder } from "../../components/others";
 import { Icon } from "../../components/icons";
-
-const panelProps = {
-  className: "flex aictr jcctr coll flex-1",
-  style: { gap: 64 },
-};
+import { Padder } from "../../components/others";
+import { SecButton } from "../../components/buttons";
 
 export default function QuizzesListPanel() {
   return (
     <div className="content-wrapper flex coll">
       <Padder height={64} />
       <div style={{ gap: 16 }} className="flex aiend">
-        <Icon name="quiz" size={84} color="var(--color-prim)" />
+        <Icon name="conversion_path" size={84} color="var(--color-prim)" />
 
         <div className="flex coll" style={{ gap: 8 }}>
-          <h1>Quizzes (0)</h1>
+          <h1>Roadmaps (0)</h1>
           <div className="disclaimer">
-            Quizzes are currently saved on your device
+            Roadmap are currently saved on your device
           </div>
         </div>
       </div>
 
-      <NoQuizzes />
+      <Nothing />
     </div>
   );
 }
 
-function NoQuizzes() {
+const panelProps = {
+  className: "flex aictr jcctr coll flex-1",
+  style: { gap: 64 },
+};
+
+function Nothing() {
   const nav = useNavigate();
 
   return (
@@ -40,13 +39,13 @@ function NoQuizzes() {
       />
 
       <p className="tactr">
-        <div>You haven't generated any quizzes yet</div>
-        <div>Generate a quiz by uploading the material</div>
+        <div>You haven't generated any roadmap yet</div>
+        <div>But you can change that!</div>
       </p>
 
-      <SecButton onClick={() => nav("/quiz/create")}>
+      <SecButton onClick={() => nav("/roadmap/create")}>
         <Icon name="add_circle" />
-        Create a quiz
+        Create a roadmap
       </SecButton>
     </div>
   );

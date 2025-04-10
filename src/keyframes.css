@@ -8,6 +8,7 @@
   }
 }
 
+.content-wrapper,
 .fade-in {
   --dur: 0.2s;
   --del: 0s;

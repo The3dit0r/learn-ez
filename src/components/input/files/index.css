@@ -17,3 +17,7 @@
   transform: translateY(0px);
   filter: brightness(0.8);
 }
+
+.dft-input-file.not-empty {
+  border-style: solid;
+}
