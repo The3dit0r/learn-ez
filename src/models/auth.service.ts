@@ -22,6 +22,7 @@ class AuthService {
   }
 
   public async logout() {
+    this.user = undefined;
     return signOut(getAuth());
   }
 }

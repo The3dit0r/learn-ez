@@ -11,6 +11,7 @@ export class Observable<T> {
       fn,
       id,
     });
+    return id;
   }
 
   public set(value: T) {
