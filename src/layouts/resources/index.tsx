@@ -64,7 +64,7 @@ export function ResourceListPanel({}: Props) {
       ) : (
         <div className="flex aictr jcctr coll flex-1" style={{ gap: 64 }}>
           <img
-            src="http://localhost:5173/assets/empty-box.png"
+            src={location.origin + "/assets/empty-box.png"}
             style={{ filter: "invert(1)", width: 200 }}
           />
           <p className="tactr">You haven't uploaded any material</p>

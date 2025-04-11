@@ -68,13 +68,15 @@ export function NavigationBar() {
         );
       })}
 
-      <div
-        className="running-bar"
-        style={{
-          transform: `translateY(calc(11px + ${72 * runner}px))`,
-          transition: "all 0.1s",
-        }}
-      ></div>
+      {runner < 0 || (
+        <div
+          className="running-bar"
+          style={{
+            transform: `translateY(calc(11px + ${72 * runner}px))`,
+            transition: "all 0.1s",
+          }}
+        ></div>
+      )}
     </div>
   );
 }
