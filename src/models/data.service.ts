@@ -19,7 +19,11 @@ class LearnEZDataService {
       const messages = new Observable("Trying to fucking send the pedofile");
       resolve(messages);
       const ingestPDFFn = httpsCallable(getFunctions(), "ingestPDFFile");
-      ingestPDFFn.stream();
+      ingestPDFFn.stream().then((value) => {
+        value.data.then((value) => {
+          messages.set(value as string);
+        });
+      });
     });
   }
 }
