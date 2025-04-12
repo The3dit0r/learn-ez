@@ -31,24 +31,10 @@ class QuizService {
           ques: MultipleChoiceQuestion;
           attemptDocId: string;
         }) => {
-          const observable = new Observable(
-            (
-              await getDoc(
-                doc(getFirestore(), `quizzes/${callback.attemptDocId}`)
-              )
-            ).data() as Attempt
-          );
-
           resolve({
             ques: callback.ques,
-            attemptObservable: observable,
+            attemptObservable: await this.getAttempt(callback.attemptDocId),
           });
-          onSnapshot(
-            doc(getFirestore(), `quizzes/${callback.attemptDocId}`),
-            (next) => {
-              observable.set(next.data() as Attempt);
-            }
-          );
         }
       );
     });
@@ -73,6 +59,18 @@ class QuizService {
         }
       );
     });
+  }
+
+  public async getAttempt(attemptId: string): Promise<Observable<Attempt>> {
+    const observable = new Observable(
+      (
+        await getDoc(doc(getFirestore(), `quizzes/${attemptId}`))
+      ).data() as Attempt
+    );
+    onSnapshot(doc(getFirestore(), `quizzes/${attemptId}`), (next) => {
+      observable.set(next.data() as Attempt);
+    });
+    return observable;
   }
 }
 
