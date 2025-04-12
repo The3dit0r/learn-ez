@@ -1,6 +1,8 @@
 import { Attempt, MultipleChoiceQuestion } from "./types/quiz";
 import { io, Socket } from "socket.io-client";
 import { RoadmapCheckpoint } from "../utilities/type";
+import { Observable } from "./utils/observable.pattern";
+import { doc, getDoc, getFirestore, onSnapshot } from "firebase/firestore";
 
 class QuizService {
   private socket: Socket = io("http://localhost:6969");
@@ -25,8 +27,28 @@ class QuizService {
         "quiz-begin",
         referenceMaterialId,
         initialQuery,
-        (callback: QuizStartData) => {
-          resolve(callback);
+        async (callback: {
+          ques: MultipleChoiceQuestion;
+          attemptDocId: string;
+        }) => {
+          const observable = new Observable(
+            (
+              await getDoc(
+                doc(getFirestore(), `quizzes/${callback.attemptDocId}`)
+              )
+            ).data() as Attempt
+          );
+
+          resolve({
+            ques: callback.ques,
+            attemptObservable: observable,
+          });
+          onSnapshot(
+            doc(getFirestore(), `quizzes/${callback.attemptDocId}`),
+            (next) => {
+              observable.set(next.data() as Attempt);
+            }
+          );
         }
       );
     });
@@ -56,12 +78,12 @@ class QuizService {
 
 export interface QuizStartData {
   ques: MultipleChoiceQuestion;
-  attemptDocId: string;
+  attemptObservable: Observable<Attempt>;
 }
 
 export type AnswerSetCallback =
   | { wasCorrect: boolean; currentAttemptData: Attempt }
   | {
       isOver: boolean;
-};
+    };
 export const quizService = new QuizService();
