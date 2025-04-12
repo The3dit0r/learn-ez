@@ -1,8 +1,8 @@
 import { Attempt, MultipleChoiceQuestion } from "./types/quiz";
 import { io, Socket } from "socket.io-client";
-import { RoadmapCheckpoint } from "../utilities/type";
 import { Observable } from "./utils/observable.pattern";
 import { doc, getDoc, getFirestore, onSnapshot } from "firebase/firestore";
+import { RoadmapCheckpoint } from "./types/roadmap";
 
 class QuizService {
   private socket: Socket = io("http://localhost:6969");
@@ -13,7 +13,7 @@ class QuizService {
     initialQuery: string = checkpoint.description
   ): Promise<QuizStartData> {
     return this.startQuizFromMaterial(
-      checkpoint.referenceMaterial[0].id,
+      checkpoint.referenceMaterial[0].referenceId,
       initialQuery
     );
   }
