@@ -1,13 +1,12 @@
-import { PriButton, SecButton, WarnButton } from "../../components/buttons";
-import { Icon } from "../../components/icons";
-import { Padder, UploadButton } from "../../components/others";
+import { PriButton, SecButton, WarnButton } from "@components/buttons";
+import { Padder, UploadButton } from "@components/others";
+import { Icon } from "@components/icons";
 
-import {
-  FileMetadata,
-  removeFileFromLocalStorage,
-} from "../../utilities/storage";
-import { formatDate, formatFileSize } from "../../utilities/converter";
-import useLocalSavedFiles from "../../hooks/useLocalSavedFiles";
+import useLocalSavedFiles from "@hooks/useLocalSavedFiles";
+import { useSnackbar } from "@context/snackbar";
+
+import { FileMetadata, removeFileFromLocalStorage } from "@utilities/storage";
+import { formatDate, formatFileSize } from "@utilities/converter";
 
 type Props = {};
 
@@ -75,6 +74,8 @@ export function ResourceListPanel({}: Props) {
 }
 
 function FileRow({ file, reload }: { file: FileMetadata; reload(): void }) {
+  const [toggle] = useSnackbar();
+
   async function removeFile() {
     const willRemove = confirm(
       "Are you sure you want to remove:\n" + file.name
@@ -83,9 +84,13 @@ function FileRow({ file, reload }: { file: FileMetadata; reload(): void }) {
 
     const status = await removeFileFromLocalStorage(file.hash || "");
     if (status) {
-      alert("File remove sucessfully");
+      toggle({ text: "File remove sucessfully", color: "var(--color-ok)" });
     } else {
-      alert("We encounter an issue removing the file, please try again later");
+      toggle({
+        text: "We encounter an issue removing the file, please try again later",
+        icon: "error",
+        color: "var(--color-err)",
+      });
     }
 
     reload();

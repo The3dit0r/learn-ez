@@ -1,8 +1,10 @@
-import React, { useRef, useState } from "react";
-import { Icon } from "../../icons";
+import { useRef, useState } from "react";
 import "./index.css";
-import { ellipsisString, formatFileSize } from "../../../utilities/converter";
-import { WarnButton } from "../../buttons";
+
+import { WarnButton } from "@components/buttons";
+import { Icon } from "@components/icons";
+
+import { ellipsisString, formatFileSize } from "@utilities/converter";
 
 type Intrinsic = React.JSX.IntrinsicElements;
 

@@ -1,12 +1,14 @@
 import { useState } from "react";
 
-import { ModalWrapper } from "../../components/modals";
-import { Button, PriButton } from "../../components/buttons";
-import { Icon } from "../../components/icons";
-import useLocalSavedFiles from "../../hooks/useLocalSavedFiles";
-import { getFileHash, loadFileFromLocalStorage } from "../../utilities/storage";
-import { formatDate, formatFileSize } from "../../utilities/converter";
-import { UploadButton } from "../../components/others";
+import { Button, PriButton } from "@components/buttons";
+import { ModalWrapper } from "@components/modals";
+import { UploadButton } from "@components/others";
+import { Icon } from "@components/icons";
+
+import useLocalSavedFiles from "@hooks/useLocalSavedFiles";
+
+import { getFileHash, loadFileFromLocalStorage } from "@utilities/storage";
+import { formatDate, formatFileSize } from "@utilities/converter";
 
 type State<T> = [T, React.Dispatch<React.SetStateAction<T>>];
 

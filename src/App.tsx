@@ -1,11 +1,24 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { Icon, MainLogo } from "./components/icons";
+import { Icon, MainLogo } from "@components/icons";
 
-import LayoutRouter from "./layouts";
+import LayoutRouter from "@layouts/index";
+
+import { useUserData } from "@context/user";
+import LoginPanel from "@layouts/auth";
 
 function App() {
+  const { user } = useUserData();
+
+  if (!user) {
+    return (
+      <div className="app-wrapper">
+        <LoginPanel />
+      </div>
+    );
+  }
+
   return (
     <div className="app-wrapper">
       <NavigationBar />
@@ -22,7 +35,11 @@ export function NavigationBar() {
 
   const options = [
     { icon: <MainLogo width="2em" />, name: "Home", path: "/" },
-    { icon: <Icon name="quiz" />, name: "Quiz", path: "/quiz" },
+    {
+      icon: <Icon name="history" />,
+      name: "Quiz attempts",
+      path: "/attempt",
+    },
     {
       icon: <Icon name="conversion_path" />,
       name: "Roadmap",
@@ -43,7 +60,7 @@ export function NavigationBar() {
   }, [pathname]);
 
   return (
-    <div className="navigation-bar" style={{ fontSize: 16 }}>
+    <div className="navigation-bar" style={{ fontSize: 16, zIndex: 1 }}>
       {options.map((item, index) => {
         if (!item) {
           return <div className="sep"></div>;

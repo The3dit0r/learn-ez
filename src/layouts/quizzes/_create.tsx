@@ -1,18 +1,14 @@
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Icon } from "../../components/icons";
-import { TextAreaInput, TextInput } from "../../components/input/text";
-import { Padder } from "../../components/others";
-import {
-  SecButton,
-  Button,
-  CauButton,
-  WarnButton,
-} from "../../components/buttons";
-import UnavailablePreviewPanel from "../others";
-import { TabSelector } from "../../components/navigate/_tabselector";
-import FileSelectModal from "../modals/_file_selector";
+import { SecButton, Button, CauButton, WarnButton } from "@components/buttons";
+import { TextAreaInput, TextInput } from "@components/input/text";
+import { TabSelector } from "@components/navigate";
+import { Padder } from "@components/others";
+import { Icon } from "@components/icons";
+
+import { UnavailablePreviewPanel } from "@layouts/others";
+import { FileSelectModal } from "@layouts/modals";
 
 const AvailableOptions = {
   general: { text: "General info", id: "general", icon: "info" },
@@ -27,10 +23,6 @@ const AvailableOptions = {
 type ReactState<T> = [T, React.Dispatch<React.SetStateAction<T>>];
 
 type QCT = {
-  name: ReactState<string>;
-  description: ReactState<string>;
-  cover: ReactState<File | null>;
-
   source: ReactState<File | null>;
   prompt: ReactState<string>;
 };
@@ -50,16 +42,10 @@ export default function QuizCreatePanel() {
   const nav = useNavigate();
   const panelState = useState("general");
 
-  const nameState = useState("");
-  const descState = useState("");
-  const coverState = useState<File | null>(null);
   const promptState = useState("");
   const sourceState = useState<File | null>(null);
 
   const value = {
-    name: nameState,
-    description: descState,
-    cover: coverState,
     prompt: promptState,
     source: sourceState,
   };
@@ -83,34 +69,18 @@ export default function QuizCreatePanel() {
         <Padder height={32} />
 
         <div style={{ padding: "32px 0", gap: 32 }} className="flex flex-1">
-          <TabSelector
-            items={Object.values(AvailableOptions)}
-            state={panelState}
-          />
-
-          <div style={{ border: "1px solid #fff4" }}></div>
-
-          {(() => {
-            switch (panelState[0]) {
-              case "others": {
-                return <OthersPanel />;
-              }
-
-              case "gener": {
-                return <GeneratePanel />;
-              }
-
-              case "general":
-              default: {
-                return <GeneralPanel />;
-              }
-            }
-          })()}
+          <GeneratePanel />
         </div>
 
         <div style={{ gap: 12 }} className="flex jcend">
           <Button onClick={() => nav(-1)}>Cancel</Button>
-          <SecButton>Generate quiz</SecButton>
+          <SecButton
+            onClick={() => {
+              nav("/quiz/live");
+            }}
+          >
+            Generate quiz
+          </SecButton>
         </div>
 
         <Padder height={32} />
@@ -119,36 +89,28 @@ export default function QuizCreatePanel() {
   );
 }
 
-function GeneralPanel() {
-  const { name, description } = useQuizContext();
+// function GeneralPanel() {
+//   const { name } = useQuizContext();
 
-  return (
-    <div className="flex-1 fade-in">
-      <PanelHeader
-        {...AvailableOptions.general}
-        desc="General information of the quiz"
-      />
-      <div className="flex" style={{ gap: 32 }}>
-        <div className="flex-1">
-          <TextInput
-            placeholder="Ex: Statistical Intervals for a Single Sample"
-            label="Quiz name (Leave blank to auto generate)"
-            maxLength={64}
-            state={name}
-          />
-
-          <TextAreaInput
-            placeholder="Ex: This quiz will help me learn math by making me remember equations"
-            label="Description (Leave blank to auto generate)"
-            maxLength={128}
-            height={128}
-            state={description}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
+//   return (
+//     <div className="flex-1 fade-in">
+//       <PanelHeader
+//         {...AvailableOptions.general}
+//         desc="General information of the quiz"
+//       />
+//       <div className="flex" style={{ gap: 32 }}>
+//         <div className="flex-1">
+//           <TextInput
+//             placeholder="Ex: Statistical Intervals for a Single Sample"
+//             label="Quiz name (Leave blank to auto generate)"
+//             maxLength={64}
+//             state={name}
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
 
 function GeneratePanel() {
   const modalState = useState(false);
@@ -167,7 +129,10 @@ function GeneratePanel() {
         <div className="label">Source material (PDF)</div>
         <div className="flex" style={{ gap: 16 }}>
           <div className="dft-input-frame flex aictr flex-1">
-            <span style={{ padding: "0 16px", fontWeight: 700 }}>
+            <span
+              style={{ padding: "0 16px", fontWeight: 700 }}
+              className="line-ellips"
+            >
               {source[0]?.name || "No file selected"}
             </span>
           </div>
@@ -201,15 +166,15 @@ function GeneratePanel() {
   );
 }
 
-function OthersPanel() {
-  return (
-    <div className="flex coll flex-1 fade-in">
-      <PanelHeader {...AvailableOptions.others} desc="Miscellaneous options" />
-      <UnavailablePreviewPanel />
-      <Padder height={64} />
-    </div>
-  );
-}
+// function OthersPanel() {
+//   return (
+//     <div className="flex coll flex-1 fade-in">
+//       <PanelHeader {...AvailableOptions.others} desc="Miscellaneous options" />
+//       <UnavailablePreviewPanel />
+//       <Padder height={64} />
+//     </div>
+//   );
+// }
 
 function PanelHeader(p: { text: string; icon: string; desc?: string }) {
   return (

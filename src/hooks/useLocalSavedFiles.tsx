@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { FileMetadata, getAllSavedFiles } from "../utilities/storage";
+import { FileMetadata, getAllSavedFiles } from "@utilities/storage";
 
 export default function useLocalSavedFiles(): [FileMetadata[], () => void] {
   const [savedFiles, setSavedFiles] = useState<FileMetadata[]>([]);

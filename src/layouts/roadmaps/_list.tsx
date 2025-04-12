@@ -1,52 +1,62 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Icon } from "../../components/icons";
-import { Padder } from "../../components/others";
-import { SecButton } from "../../components/buttons";
+
+import { SecButton } from "@components/buttons";
+import { Padder } from "@components/others";
+import { Icon } from "@components/icons";
+import CardItem from "@components/cards";
+
+import { roadmap } from "@utilities/test";
+import { convertLLtoArr, formatDate } from "@utilities/converter";
 
 export default function QuizzesListPanel() {
+  const nav = useNavigate();
+  const [roadmaps] = useState([roadmap]);
+
   return (
     <div className="content-wrapper flex coll">
       <Padder height={64} />
       <div style={{ gap: 16 }} className="flex aiend">
         <Icon name="conversion_path" size={84} color="var(--color-prim)" />
 
-        <div className="flex coll" style={{ gap: 8 }}>
+        <div className="flex coll flex-1" style={{ gap: 8 }}>
           <h1>Roadmaps (0)</h1>
           <div className="disclaimer">
             Roadmap are currently saved on your device
           </div>
         </div>
+
+        <SecButton onClick={() => nav("/roadmap/create")}>
+          <Icon name="add_circle" />
+          Create
+        </SecButton>
       </div>
 
-      <Nothing />
-    </div>
-  );
-}
+      <Padder height={64} />
 
-const panelProps = {
-  className: "flex aictr jcctr coll flex-1",
-  style: { gap: 64 },
-};
+      <div className="flex-1 card-list">
+        {roadmaps.map((r) => {
+          const list = convertLLtoArr(r.startNode);
+          const checkpoints = list
+            .map((a) => a.content.length)
+            .reduce((a, b) => a + b);
 
-function Nothing() {
-  const nav = useNavigate();
+          return (
+            <CardItem
+              title={r.label}
+              onClick={() => nav("/roadmap/hamburgerasde")}
+            >
+              <Padder height={16} />
 
-  return (
-    <div {...panelProps}>
-      <img
-        src={location.origin + "/assets/sad-box.png"}
-        style={{ filter: "invert(1)", width: 200 }}
-      />
-
-      <p className="tactr">
-        <div>You haven't generated any roadmap yet</div>
-        <div>But you can change that!</div>
-      </p>
-
-      <SecButton onClick={() => nav("/roadmap/create")}>
-        <Icon name="add_circle" />
-        Create a roadmap
-      </SecButton>
+              <h4>• {list.length} milestones</h4>
+              <h4>• {checkpoints} checkpoints</h4>
+              <div className="disclaimer">
+                Create on: {formatDate(r.createdAt.toISOString())}
+              </div>
+            </CardItem>
+          );
+        })}
+      </div>
     </div>
   );
 }

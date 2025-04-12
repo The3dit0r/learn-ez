@@ -14,23 +14,3 @@ export enum RoadmapCheckpointStatus {
 }
 
 export type StyleSize = "s" | "m" | "l" | "x";
-
-export interface RoadmapMilestone {
-  label: string;
-  content: Array<RoadmapCheckpoint>;
-  nextMilestone?: RoadmapMilestone;
-  previousMilestone?: RoadmapMilestone;
-}
-
-export interface RoadmapCheckpoint {
-  label: string;
-  status: RoadmapCheckpointStatus;
-  description: string;
-  lengthMinutes: number;
-  referenceMaterial: Array<CheckpointReference>;
-}
-
-export interface CheckpointReference {
-  id: string;
-  vectorIndex: number;
-}

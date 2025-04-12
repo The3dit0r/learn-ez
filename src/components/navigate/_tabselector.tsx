@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Button } from "../buttons";
-import { Icon } from "../icons";
+
+import { Button } from "@components/buttons";
+import { Icon } from "@components/icons";
 
 import "./index.css";
 

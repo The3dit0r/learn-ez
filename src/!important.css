@@ -128,3 +128,85 @@
     background-color: var(--color-sec) !important;
   }
 }
+
+.card-list {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-rows: repeat(5, 1fr); */
+
+  /* row-gap: 10px; */
+
+  gap: 32px;
+}
+
+.test-cover {
+  background-color: var(--color-prim);
+  background-image: url("../public/assets/logo.svg");
+
+  background-size: 100px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.scale-big {
+  transition: transform 0.1s;
+}
+
+.scale-big:active {
+  transform: scale(1.06);
+}
+
+.frame {
+  background-color: #242424;
+
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.frame.border {
+  border: 2px solid var(--color-prim);
+}
+
+.frame.clickable:hover {
+  transform: translateY(-4px);
+}
+
+.frame.clickable:active {
+  transform: translateY(-1px);
+}
+
+.hover-bright:hover {
+  background-color: #fff1;
+  cursor: pointer;
+}
+
+.hover-bright:active {
+  background-color: #fff4;
+}
+
+.prog {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .bar {
+    flex: 1;
+    height: 100%;
+    border-radius: 3px;
+
+    background-color: #fff6;
+  }
+
+  .s-0 {
+    background-color: var(--color-tert-1);
+  }
+
+  .s-1 {
+    background-color: var(--color-ok);
+  }
+
+  .s-4 {
+    background-color: var(--color-sec);
+  }
+}

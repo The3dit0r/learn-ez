@@ -1,9 +1,13 @@
 import { useRef } from "react";
+
+import { Button, PriButton, SecButton, WarnButton } from "@components/buttons";
+
+import { useSnackbar } from "@context/snackbar";
+
 import {
   fileExistInLocalStorage,
   saveFileToLocalStorage,
-} from "../../utilities/storage";
-import { PriButton } from "../buttons";
+} from "@utilities/storage";
 
 export function Padder({ height = 32 }: { height?: string | number }) {
   return <div style={{ height }}></div>;
@@ -12,6 +16,11 @@ export function Padder({ height = 32 }: { height?: string | number }) {
 export function UploadButton({ onFinish }: { onFinish: (v: File) => void }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  const [toggle] = useSnackbar();
+  const alerts = (a = "") => {
+    toggle({ text: a, color: "var(--color-err)", icon: "error" });
+  };
+
   async function handleFileInput(event: any) {
     const target = event.target as HTMLInputElement | null;
     if (!target) return;
@@ -19,18 +28,20 @@ export function UploadButton({ onFinish }: { onFinish: (v: File) => void }) {
     const file = target.files?.[0];
     const maxSizeBytes = 15 * 1024 * 1024;
 
+    target.value = "";
+
     if (!file) {
-      // alert("Error reading file! Please try again");
+      alerts("Error reading file! Please try again");
       return;
     }
 
     if (file.type !== "application/pdf") {
-      alert("Only PDF documents are supported");
+      alerts("Only PDF documents are supported");
       return;
     }
 
     if (file.size > maxSizeBytes) {
-      alert("File surpased maximum size");
+      alerts("File surpased maximum size");
       return;
     }
 
@@ -46,7 +57,10 @@ export function UploadButton({ onFinish }: { onFinish: (v: File) => void }) {
     }
 
     if (!willSaveFile) return;
-    saveFileToLocalStorage(file).then(onFinish);
+    saveFileToLocalStorage(file).then((f) => {
+      onFinish(f);
+      toggle({ text: "File uploaded" });
+    });
   }
 
   function handleClick() {
@@ -66,6 +80,68 @@ export function UploadButton({ onFinish }: { onFinish: (v: File) => void }) {
         ref={inputRef}
         onChange={handleFileInput}
       />
+    </div>
+  );
+}
+
+export function QuestionContent({
+  data,
+  index,
+  score,
+  choice,
+  showAnswer,
+  className,
+}: {
+  data: any;
+  index: number | string;
+  score?: number;
+  choice?: string;
+  showAnswer?: boolean;
+  className?: string;
+}) {
+  const clssArr = ["frame"];
+  if (className) {
+    clssArr.push(className);
+  }
+
+  return (
+    <div className={clssArr.join(" ")} style={{ marginBottom: 16 }}>
+      <h4>
+        Q{index} •{" "}
+        {showAnswer ? (
+          <span>
+            Score: {score} / {data.maxScore}
+          </span>
+        ) : (
+          <span>Score: {data.maxScore}</span>
+        )}
+      </h4>
+      <div style={{ minHeight: 100 }}>
+        <div style={{ fontSize: "1.35em", marginTop: 8 }}>{data.question}</div>
+      </div>
+      {!showAnswer || (
+        <div className="disclaimer">From: {data.reference.source}</div>
+      )}
+      <Padder height={32} />
+      <div className="flex coll card-list" style={{ gap: 16 }}>
+        {Object.keys(data.choices).map((k) => {
+          const content = data.choices[k];
+
+          if (k === choice) {
+            if (k === data.answer) {
+              return <SecButton>{content}</SecButton>;
+            } else {
+              return <WarnButton>{content}</WarnButton>;
+            }
+          } else {
+            if (k === data.answer && showAnswer) {
+              return <SecButton>{content}</SecButton>;
+            }
+
+            return <Button>{content}</Button>;
+          }
+        })}
+      </div>
     </div>
   );
 }

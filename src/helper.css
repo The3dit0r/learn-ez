@@ -186,3 +186,25 @@ h5 {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
+
+.scrollable {
+  overflow-y: auto;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  width: 4px;
+  background: var(--color-prim);
+}
+
+.scrollable.hide-scroll::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.lock {
+  pointer-events: none;
+}

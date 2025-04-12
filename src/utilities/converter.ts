@@ -1,3 +1,5 @@
+import { RoadmapMilestone } from "@models/types/roadmap";
+
 /**
  * Converts file size in bytes to a human-readable string in MB or KB.
  * Returns MB with 2 decimal places if size ≥ 0.1MB, otherwise KB with 1 decimal place.
@@ -98,8 +100,8 @@ export function base64ToBlob(base64: string, contentType: string): Blob {
  * @param isoDateString The ISO date string to format
  * @returns Formatted date string in DD/MM/YYYY, HH:MM format
  */
-export function formatDate(isoDateString: string): string {
-  const date = new Date(isoDateString);
+export function formatDate(isoDateString?: string): string {
+  const date = isoDateString ? new Date(isoDateString) : new Date();
 
   if (isNaN(date.getTime())) {
     throw new Error("Invalid date string provided");
@@ -113,4 +115,13 @@ export function formatDate(isoDateString: string): string {
   const minutes = String(date.getMinutes()).padStart(2, "0");
 
   return `${day}/${month}/${year} @${hours}:${minutes}`;
+}
+
+export function convertLLtoArr(startNode?: RoadmapMilestone) {
+  const array: RoadmapMilestone[] = [];
+  while (startNode != undefined) {
+    array.push(startNode);
+    startNode = startNode.nextMilestone;
+  }
+  return array;
 }

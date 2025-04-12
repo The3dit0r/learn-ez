@@ -1,5 +1,4 @@
-import QuizDetailsPanel from "./_details";
-import QuizzesListPanel from "./_list";
 import QuizCreatePanel from "./_create";
+import QuizAttemptLivePanel from "./_live";
 
-export { QuizDetailsPanel, QuizzesListPanel, QuizCreatePanel };
+export { QuizCreatePanel, QuizAttemptLivePanel };
