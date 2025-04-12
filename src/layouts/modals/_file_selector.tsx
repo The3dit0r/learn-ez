@@ -5,20 +5,18 @@ import { ModalWrapper } from "@components/modals";
 import { UploadButton } from "@components/others";
 import { Icon } from "@components/icons";
 
-import useLocalSavedFiles from "@hooks/useLocalSavedFiles";
-
-import { getFileHash, loadFileFromLocalStorage } from "@utilities/storage";
-import { formatDate, formatFileSize } from "@utilities/converter";
+import useCloudData from "@hooks/useCloudData";
+import { MaterialInfo } from "@models/types/reference";
 
 type State<T> = [T, React.Dispatch<React.SetStateAction<T>>];
 
 type Props = {
   state?: State<boolean>;
-  onFileConfirm?: (file: File | null) => void;
+  onFileConfirm?: (file: MaterialInfo | null) => void;
 };
 
 export default function FileSelectModal({ state, onFileConfirm }: Props) {
-  const [savedFiles, refresh] = useLocalSavedFiles();
+  const [savedFiles, refresh] = useCloudData();
   const [currentHash, setCurrentHash] = useState<string>("");
 
   const [active, setActive] = state || [false, () => {}];
@@ -34,13 +32,11 @@ export default function FileSelectModal({ state, onFileConfirm }: Props) {
       onFileConfirm(null);
     }
 
-    const file = await loadFileFromLocalStorage(currentHash);
+    const file = savedFiles.filter((f) => f.documentId === currentHash)[0];
     onFileConfirm(file);
   };
 
-  function handleRefresh(file: File) {
-    const hash = getFileHash(file.name);
-    setCurrentHash(hash);
+  function handleRefresh() {
     refresh();
   }
 
@@ -86,37 +82,21 @@ export default function FileSelectModal({ state, onFileConfirm }: Props) {
             <table style={{ width: "100%" }} className="custom-table">
               <thead>
                 <tr>
-                  <th className="talft">
-                    Saved files: {savedFiles.length}
-                    <br />
-                    Total size:{" "}
-                    {formatFileSize(
-                      savedFiles.reduce((a, b) => a + b.byteSize, 0)
-                    )}
-                  </th>
-                  <th>Last modified</th>
+                  <th className="talft">Saved files: {savedFiles.length}</th>
                 </tr>
               </thead>
               <tbody>
                 {savedFiles.map((file) => (
                   <tr
-                    onClick={() => setCurrentHash(file.hash)}
+                    onClick={() => setCurrentHash(file.documentId)}
                     onDoubleClick={() => {
-                      setCurrentHash(file.hash);
+                      setCurrentHash(file.documentId);
                       close(true);
                     }}
-                    className={currentHash === file.hash ? "active" : ""}
+                    className={currentHash === file.documentId ? "active" : ""}
                   >
                     <td>
-                      <h4>{file.name}</h4>
-                      <div>
-                        [{formatFileSize(file.byteSize)}] Uploaded:
-                        {formatDate(file.uploadedDate)}
-                      </div>
-                    </td>
-
-                    <td className="tactr trivia">
-                      {formatDate(file.lastModified)}
+                      <h4>{file.fileName}</h4>
                     </td>
                   </tr>
                 ))}

@@ -9,6 +9,7 @@ import { Icon } from "@components/icons";
 
 import { UnavailablePreviewPanel } from "@layouts/others";
 import { FileSelectModal } from "@layouts/modals";
+import { MaterialInfo } from "@models/types/reference";
 
 const AvailableOptions = {
   general: { text: "General info", id: "general", icon: "info" },
@@ -23,7 +24,7 @@ const AvailableOptions = {
 type ReactState<T> = [T, React.Dispatch<React.SetStateAction<T>>];
 
 type QCT = {
-  source: ReactState<File | null>;
+  source: ReactState<MaterialInfo | null>;
   prompt: ReactState<string>;
 };
 
@@ -40,10 +41,9 @@ function useQuizContext() {
 
 export default function QuizCreatePanel() {
   const nav = useNavigate();
-  const panelState = useState("general");
 
   const promptState = useState("");
-  const sourceState = useState<File | null>(null);
+  const sourceState = useState<MaterialInfo | null>(null);
 
   const value = {
     prompt: promptState,
@@ -133,7 +133,7 @@ function GeneratePanel() {
               style={{ padding: "0 16px", fontWeight: 700 }}
               className="line-ellips"
             >
-              {source[0]?.name || "No file selected"}
+              {source[0]?.fileName || "No file selected"}
             </span>
           </div>
           {!source[0] ? (

@@ -17,9 +17,15 @@ export default function LoginPanel() {
       <img src={location.origin + "/assets/logo.svg"} />
       <h1>LearnEZ</h1>
 
-      <p style={{ fontSize: "1.4em" }}>Please login to use this app</p>
-      <Padder height={32} />
-      <SecButton onClick={handleClick}>Login</SecButton>
+      <p style={{ fontSize: "1.4em", width: 500 }} className="tactr">
+        A platform that generates interactive roadmaps and questions
+        automatically from documents.
+      </p>
+      <div>
+        <div style={{ fontSize: "1.4em" }}>Please login to use this app</div>
+        <Padder height={32} />
+        <SecButton onClick={handleClick}>Login</SecButton>
+      </div>
     </div>
   );
 }

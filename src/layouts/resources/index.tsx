@@ -1,17 +1,17 @@
+import { useEffect, useState } from "react";
+
 import { PriButton, SecButton, WarnButton } from "@components/buttons";
 import { Padder, UploadButton } from "@components/others";
 import { Icon } from "@components/icons";
 
-import useLocalSavedFiles from "@hooks/useLocalSavedFiles";
-import { useSnackbar } from "@context/snackbar";
+import { MaterialInfo } from "@models/types/reference";
 
-import { FileMetadata, removeFileFromLocalStorage } from "@utilities/storage";
-import { formatDate, formatFileSize } from "@utilities/converter";
+import useCloudData from "@hooks/useCloudData";
 
 type Props = {};
 
 export function ResourceListPanel({}: Props) {
-  const [savedFiles, refresh] = useLocalSavedFiles();
+  const [savedFiles, refresh] = useCloudData();
 
   return (
     <div className="content-wrapper flex coll">
@@ -41,21 +41,13 @@ export function ResourceListPanel({}: Props) {
           <table style={{ width: "100%" }} className="custom-table">
             <thead>
               <tr>
-                <th className="talft">
-                  Saved files: {savedFiles.length}
-                  <br />
-                  Total size:{" "}
-                  {formatFileSize(
-                    savedFiles.reduce((a, b) => a + b.byteSize, 0)
-                  )}
-                </th>
-                <th></th>
-                <th>Uploaded at</th>
+                <th className="talft">Saved files: {savedFiles.length}</th>
+                <th>Options</th>
               </tr>
             </thead>
             <tbody>
               {savedFiles.map((file) => (
-                <FileRow file={file} reload={refresh} key={file.hash} />
+                <FileRow file={file} key={file.documentId} />
               ))}
             </tbody>
           </table>
@@ -73,36 +65,11 @@ export function ResourceListPanel({}: Props) {
   );
 }
 
-function FileRow({ file, reload }: { file: FileMetadata; reload(): void }) {
-  const [toggle] = useSnackbar();
-
-  async function removeFile() {
-    const willRemove = confirm(
-      "Are you sure you want to remove:\n" + file.name
-    );
-    if (!willRemove) return;
-
-    const status = await removeFileFromLocalStorage(file.hash || "");
-    if (status) {
-      toggle({ text: "File remove sucessfully", color: "var(--color-ok)" });
-    } else {
-      toggle({
-        text: "We encounter an issue removing the file, please try again later",
-        icon: "error",
-        color: "var(--color-err)",
-      });
-    }
-
-    reload();
-  }
-
+function FileRow({ file }: { file: MaterialInfo }) {
   return (
     <tr>
       <td>
-        <h4>
-          {file.name} [{formatFileSize(file.byteSize)}]
-        </h4>
-        <div>Last modified: {formatDate(file.lastModified)}</div>
+        <h4>{file.fileName}</h4>
       </td>
       <td className="tactr trivia">
         <PriButton>
@@ -111,11 +78,7 @@ function FileRow({ file, reload }: { file: FileMetadata; reload(): void }) {
         <SecButton>
           <Icon name="conversion_path" />
         </SecButton>
-        <WarnButton onClick={removeFile}>
-          <Icon name="delete" />
-        </WarnButton>
       </td>
-      <td className="tactr trivia">{formatDate(file.uploadedDate)}</td>
     </tr>
   );
 }

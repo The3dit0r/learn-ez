@@ -9,6 +9,9 @@ import { TextAreaInput, TextInput } from "@components/input/text";
 import { TabSelector } from "@components/navigate";
 import { FileSelectModal } from "@layouts/modals";
 import { useSnackbar } from "@context/snackbar";
+import { MaterialInfo } from "@models/types/reference";
+import { dataService } from "@models/data";
+import { defaultRoadmapGenerationConfig } from "@models/types/roadmap.config";
 
 const AvailableOptions = {
   general: { text: "General info", id: "general", icon: "info" },
@@ -23,9 +26,11 @@ export default function RoadmapCreatePanel() {
   const [toggle] = useSnackbar();
   const nav = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   const modalState = useState(false);
 
-  const source = useState<File | null>(null);
+  const source = useState<MaterialInfo | null>(null);
   const prompt = useState("");
   const name = useState("");
 
@@ -63,7 +68,7 @@ export default function RoadmapCreatePanel() {
                 style={{ padding: "0 16px", fontWeight: 700 }}
                 className="line-ellips"
               >
-                {source[0]?.name || "No file selected"}
+                {source[0]?.fileName || "No file selected"}
               </span>
             </div>
             {!source[0] ? (
@@ -92,7 +97,38 @@ export default function RoadmapCreatePanel() {
       <div style={{ gap: 12 }} className="flex jcend">
         <Button onClick={() => nav(-1)}>Cancel</Button>
         <SecButton
-          onClick={() => toggle({ text: "Button pressed", icon: "info" })}
+          onClick={() => {
+            if (loading) return;
+            const material = source[0];
+
+            if (!material) {
+              toggle({
+                text: "You have to select a source file material",
+                color: "#AA1100",
+              });
+              return;
+            }
+
+            setLoading(true);
+
+            dataService
+              .generateRoadmap(
+                material.documentId,
+                defaultRoadmapGenerationConfig,
+                prompt[0]
+              )
+              .then((roadmap) => {
+                nav("/roadmap/" + roadmap.id);
+                setLoading(false);
+              })
+              .catch(() => {
+                toggle({
+                  text: "An error orcurred while generating your roadmap!",
+                  color: "#AA1100",
+                });
+                setLoading(false);
+              });
+          }}
         >
           Generate roadmap
         </SecButton>
